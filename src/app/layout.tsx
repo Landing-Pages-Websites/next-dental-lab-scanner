@@ -47,7 +47,8 @@ export default function RootLayout({
             __html: `
               window.MEGA_TAG_CONFIG = {
                 siteId: "2156b6c2-f46e-4c08-9fa5-62a21ad19759",
-                siteKey: "sk_5deoi877_w44rzjy472"
+                siteKey: "sk_5deoi877_w44rzjy472",
+                gtmId: "GTM-T4N82VR8"
               };
               window.API_ENDPOINT = "https://analytics.gomega.ai";
               window.TRACKING_API_ENDPOINT = "https://events-api.gomega.ai";
@@ -61,7 +62,25 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
+        {/* GTM noscript */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-T4N82VR8"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         {children}
+
+        {/* GTM script */}
+        <Script id="gtm" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-T4N82VR8');`}
+        </Script>
 
         {/* CTM universal script */}
         <Script
