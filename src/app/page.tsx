@@ -98,6 +98,100 @@ function CheckIcon() {
 /* ────────────────────────────────────────── */
 /*                    PAGE                     */
 /* ────────────────────────────────────────── */
+
+/* ─── Reusable Form Component ─── */
+function LeadForm({ formData, errors, submitting, submitted, handleChange, handleSubmit, formRef, id, className = "" }: any) {
+  return (
+    <div id={id} className={`bg-white rounded-2xl p-6 sm:p-8 shadow-2xl scroll-mt-24 ${className}`}>
+      {submitted ? (
+        <div className="text-center py-12">
+          <div className="w-16 h-16 bg-[#92F7C8] rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-[#00163F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-[#00163F] mb-2">Thank You!</h3>
+          <p className="text-gray-600">We&apos;ll be in touch shortly to help you get started with the Digital Scanner Reimbursement Program.</p>
+        </div>
+      ) : (
+        <>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#00163F] mb-1">
+            Ready to <span className="text-[#FF4820]">go digital?</span>
+          </h2>
+          <p className="text-gray-600 mb-6">Fill out the form below and we will make it happen.</p>
+          <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-4">
+            <FormFields formData={formData} errors={errors} handleChange={handleChange} />
+            <button type="submit" disabled={submitting || submitted}
+              className="w-full bg-[#FF4820] hover:bg-[#E63D18] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-colors text-lg">
+              {submitting ? "Submitting..." : "Submit"}
+            </button>
+            <p className="text-xs text-gray-400 text-center">
+              For licensed dentists only. By submitting, you agree to be contacted about the program.
+            </p>
+          </form>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ─── Form Fields (shared between hero and footer forms) ─── */
+function FormFields({ formData, errors, handleChange }: any) {
+  return (
+    <>
+      {/* Email */}
+      <div>
+        <label className="block text-sm font-medium text-[#00163F] mb-1">Email<span className="text-[#FF4820]">*</span></label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email"
+          className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.email ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+      </div>
+      {/* Phone */}
+      <div>
+        <label className="block text-sm font-medium text-[#00163F] mb-1">Phone Number<span className="text-[#FF4820]">*</span></label>
+        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="(555) 555-5555"
+          className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.phone ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
+        {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+      </div>
+      {/* Office Name */}
+      <div>
+        <label className="block text-sm font-medium text-[#00163F] mb-1">Office Name<span className="text-[#FF4820]">*</span></label>
+        <input type="text" name="officeName" value={formData.officeName} onChange={handleChange} placeholder="Practice name"
+          className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.officeName ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
+        {errors.officeName && <p className="text-red-500 text-sm mt-1">{errors.officeName}</p>}
+      </div>
+      {/* Doctor Name */}
+      <div>
+        <label className="block text-sm font-medium text-[#00163F] mb-1">Doctor Name<span className="text-[#FF4820]">*</span></label>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First name"
+              className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.firstName ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
+            {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
+          </div>
+          <div>
+            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last name"
+              className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.lastName ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
+            {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
+          </div>
+        </div>
+      </div>
+      {/* What best describes you? */}
+      <div>
+        <label className="block text-sm font-medium text-[#00163F] mb-1">What best describes you?<span className="text-[#FF4820]">*</span></label>
+        <div className="relative">
+          <select name="describes" value={formData.describes} onChange={handleChange}
+            className={`w-full border rounded-lg px-4 py-3 text-gray-900 appearance-none bg-white transition-colors ${errors.describes ? "border-red-500" : "border-gray-300 hover:border-gray-400"} ${!formData.describes ? "text-gray-400" : ""}`} required>
+            {DROPDOWN_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+        </div>
+        {errors.describes && <p className="text-red-500 text-sm mt-1">{errors.describes}</p>}
+      </div>
+    </>
+  );
+}
+
 export default function Home() {
   const [formData, setFormData] = useState({
     email: "", phone: "", officeName: "", firstName: "", lastName: "", describes: "",
@@ -156,27 +250,6 @@ export default function Home() {
     document.getElementById("lead-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  /* ─── FIELD COMPONENT ─── */
-  function Field({ label, name, type = "text", placeholder, children }: {
-    label: string; name: string; type?: string; placeholder?: string; children?: React.ReactNode;
-  }) {
-    return (
-      <div>
-        <label className="block text-sm font-medium text-[#00163F] mb-1">
-          {label}<span className="text-[#FF4820]">*</span>
-        </label>
-        {children || (
-          <input type={type} name={name} value={(formData as any)[name]} onChange={handleChange}
-            placeholder={placeholder}
-            className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${
-              errors[name] ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`}
-            required />
-        )}
-        {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
-      </div>
-    );
-  }
-
   return (
     <main className="flex flex-col min-h-screen">
       {/* ── HEADER ── */}
@@ -202,10 +275,6 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div className="flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-6 w-fit">
-                <span className="w-2 h-2 bg-[#92F7C8] rounded-full animate-pulse" />
-                <span className="text-sm text-gray-300">Limited Time Offer</span>
-              </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6" style={{ fontFamily: "var(--font-poppins)" }}>
                 Go Digital,<br /><span className="text-[#92F7C8]">On Us.</span>
               </h1>
@@ -241,76 +310,8 @@ export default function Home() {
             </div>
 
             {/* LEAD FORM */}
-            <div id="lead-form" className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl scroll-mt-24">
-              {submitted ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-[#92F7C8] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-[#00163F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-bold text-[#00163F] mb-2">Thank You!</h3>
-                  <p className="text-gray-600">We&apos;ll be in touch shortly to help you get started with the Digital Scanner Reimbursement Program.</p>
-                </div>
-              ) : (
-                <>
-                  <h2 className="text-xl sm:text-2xl font-bold text-[#00163F] mb-1">
-                    Ready to <span className="text-[#FF4820]">go digital?</span>
-                  </h2>
-                  <p className="text-gray-600 mb-6">Fill out the form below and we will make it happen.</p>
-                  <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-4">
-                    <Field label="Email" name="email" type="email" placeholder="Email" />
-                    <Field label="Phone Number" name="phone" type="tel" placeholder="(555) 555-5555" />
-                    <Field label="Office Name" name="officeName" placeholder="Practice name" />
-                    <div>
-                      <label className="block text-sm font-medium text-[#00163F] mb-1">
-                        Doctor Name<span className="text-[#FF4820]">*</span>
-                      </label>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange}
-                            placeholder="First name"
-                            className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${
-                              errors.firstName ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`}
-                            required />
-                          {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
-                        </div>
-                        <div>
-                          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange}
-                            placeholder="Last name"
-                            className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${
-                              errors.lastName ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`}
-                            required />
-                          {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[#00163F] mb-1">
-                        What best describes you?<span className="text-[#FF4820]">*</span>
-                      </label>
-                      <div className="relative">
-                        <select name="describes" value={formData.describes} onChange={handleChange}
-                          className={`w-full border rounded-lg px-4 py-3 text-gray-900 appearance-none bg-white transition-colors ${
-                            errors.describes ? "border-red-500" : "border-gray-300 hover:border-gray-400"
-                          } ${!formData.describes ? "text-gray-400" : ""}`} required>
-                          {DROPDOWN_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                      </div>
-                      {errors.describes && <p className="text-red-500 text-sm mt-1">{errors.describes}</p>}
-                    </div>
-                    <button type="submit" disabled={submitting || submitted}
-                      className="w-full bg-[#FF4820] hover:bg-[#E63D18] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-colors text-lg">
-                      {submitting ? "Submitting..." : "Submit"}
-                    </button>
-                    <p className="text-xs text-gray-400 text-center">
-                      For licensed dentists only. By submitting, you agree to be contacted about the program.
-                    </p>
-                  </form>
-                </>
-              )}
-            </div>
+            <LeadForm id="lead-form" formData={formData} errors={errors} submitting={submitting}
+              submitted={submitted} handleChange={handleChange} handleSubmit={handleSubmit} formRef={formRef} />
           </div>
         </div>
       </section>
@@ -397,7 +398,7 @@ export default function Home() {
       {/* ── PROGRAM DETAILS / WHAT YOU GET ── */}
       <section className="bg-[#00163F] text-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
               <p className="text-[#92F7C8] font-semibold uppercase tracking-wider text-sm mb-3">Program Details</p>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6" style={{ fontFamily: "var(--font-poppins)" }}>
@@ -405,17 +406,18 @@ export default function Home() {
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-8">
                 Next Dental Lab&apos;s Digital Scanner Reimbursement Program is designed to remove the
-                financial barrier to going digital. We believe every dental practice should have access
-                to the best technology without the upfront cost holding them back.
+                financial barrier to going digital. Once you purchase your scanner and start sending digital
+                cases, we apply a monthly credit to your account. The total reimbursement equals the
+                scanner&apos;s purchase price and is paid out over a set number of months based on your case volume.
               </p>
               <ul className="space-y-4">
                 {[
-                  "Choose ANY intraoral scanner from ANY dealer",
-                  "Earn up to 100% of your scanner's purchase price back in lab credits",
-                  "Flexible reimbursement periods: 12, 24, or 36 months",
+                  "Choose ANY intraoral scanner from ANY dealer or supplier",
+                  "Earn up to 100% of your scanner\u2019s purchase price back in lab credits",
+                  "Select a reimbursement period that fits your case volume (e.g., 12, 24, or 36 months)",
                   "No long-term contracts or commitments required",
                   "Credits applied monthly to your Next Dental Lab account",
-                  "No penalties if you miss a month \u2014 just resume sending cases",
+                  "No penalties if you miss a month \u2014 resume sending cases and credits continue",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckIcon />
@@ -425,32 +427,28 @@ export default function Home() {
               </ul>
             </div>
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10">
-              <h3 className="text-xl font-bold text-[#92F7C8] mb-6">Reimbursement Example</h3>
-              <div className="space-y-4 text-sm">
-                <div className="flex justify-between border-b border-white/10 pb-3">
-                  <span className="text-gray-400">Scanner Purchase Price</span>
-                  <span className="font-semibold text-white">$5,000</span>
+              <h3 className="text-xl font-bold text-[#92F7C8] mb-6">How Reimbursement Works</h3>
+              <div className="space-y-5 text-sm">
+                <div className="flex items-start gap-3 border-b border-white/10 pb-4">
+                  <span className="text-[#92F7C8] font-bold text-lg shrink-0">1.</span>
+                  <div><span className="font-semibold text-white">Purchase any scanner</span><br /><span className="text-gray-400">Any IOS model, any dealer, purchased on or after April 1, 2025.</span></div>
                 </div>
-                <div className="flex justify-between border-b border-white/10 pb-3">
-                  <span className="text-gray-400">Reimbursement Period</span>
-                  <span className="font-semibold text-white">36 months</span>
+                <div className="flex items-start gap-3 border-b border-white/10 pb-4">
+                  <span className="text-[#92F7C8] font-bold text-lg shrink-0">2.</span>
+                  <div><span className="font-semibold text-white">Send digital cases monthly</span><br /><span className="text-gray-400">Meet the minimum monthly case volume to qualify for credits.</span></div>
                 </div>
-                <div className="flex justify-between border-b border-white/10 pb-3">
-                  <span className="text-gray-400">Monthly Lab Credit</span>
-                  <span className="font-semibold text-[#92F7C8]">~$139/month</span>
+                <div className="flex items-start gap-3 border-b border-white/10 pb-4">
+                  <span className="text-[#92F7C8] font-bold text-lg shrink-0">3.</span>
+                  <div><span className="font-semibold text-white">Receive monthly lab credits</span><br /><span className="text-gray-400">Credits applied to your account each month based on your case volume.</span></div>
                 </div>
-                <div className="flex justify-between pt-2">
-                  <span className="text-gray-400">Total Reimbursed</span>
-                  <span className="font-bold text-lg text-[#92F7C8]">$5,000 (100%)</span>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#92F7C8] font-bold text-lg shrink-0">4.</span>
+                  <div><span className="font-semibold text-white">Earn back up to 100%</span><br /><span className="text-gray-400">Over time, your scanner&apos;s full purchase price is reimbursed through credits.</span></div>
                 </div>
               </div>
-              <div className="mt-6 p-4 bg-white/5 rounded-lg">
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  *Example calculation for illustrative purposes. Actual credit amounts depend on
-                  scanner purchase price, chosen reimbursement period, and monthly case volume.
-                  Terms and conditions apply.
-                </p>
-              </div>
+              <p className="text-xs text-gray-500 mt-6">
+                Terms and conditions apply. Contact us for full program details.
+              </p>
             </div>
           </div>
         </div>
@@ -468,13 +466,45 @@ export default function Home() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Faster Turnaround", desc: "Digital impressions eliminate shipping time. Get cases started the same day you scan. Rush local service available in as little as 1 day.", icon: "\u26A1" },
-              { title: "Better Accuracy", desc: "Digital scans reduce remakes and adjustments with precision fit. Save time and money with fewer chairside adjustments.", icon: "\uD83C\uDFAF" },
-              { title: "Patient Experience", desc: "No more messy impression trays. Patients prefer the comfort of digital scans. Increase case acceptance with visual treatment presentations.", icon: "\uD83D\uDE0A" },
-              { title: "Zero Financial Risk", desc: "With our reimbursement program, your scanner pays for itself through lab credits. No long-term contracts or hidden commitments.", icon: "\uD83D\uDEE1\uFE0F" },
+              {
+                title: "Faster Turnaround",
+                desc: "Digital impressions eliminate shipping time. Get cases started the same day you scan.",
+                icon: (
+                  <svg className="w-7 h-7 text-[#FF4820]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
+              },
+              {
+                title: "Better Accuracy",
+                desc: "Digital scans reduce remakes and adjustments with precision fit, saving time and money.",
+                icon: (
+                  <svg className="w-7 h-7 text-[#FF4820]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+              },
+              {
+                title: "Patient Comfort",
+                desc: "No more messy impression trays. Patients prefer the comfort of digital scans.",
+                icon: (
+                  <svg className="w-7 h-7 text-[#FF4820]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+              },
+              {
+                title: "Zero Financial Risk",
+                desc: "Your scanner pays for itself through lab credits. No long-term contracts required.",
+                icon: (
+                  <svg className="w-7 h-7 text-[#FF4820]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                ),
+              },
             ].map((item) => (
               <div key={item.title} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                <span className="text-3xl mb-4 block">{item.icon}</span>
+                <div className="mb-4">{item.icon}</div>
                 <h3 className="text-lg font-bold text-[#00163F] mb-2">{item.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
               </div>
@@ -540,23 +570,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── MID-PAGE CTA ── */}
-      <section className="bg-[#FF4820] py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-poppins)" }}>
-            Ready to Make Your Scanner Pay for Itself?
-          </h2>
-          <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-            Join dental practices across the country who are going digital with zero upfront scanner cost.
-            Fill out the form to learn how you qualify.
-          </p>
-          <button onClick={scrollToForm}
-            className="bg-[#00163F] hover:bg-[#001B4D] text-white font-bold px-10 py-4 rounded-full transition-colors text-lg">
-            Fill Out the Form Now
-          </button>
-        </div>
-      </section>
-
       {/* ── FAQ ── */}
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -582,26 +595,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
-      <section className="bg-[#00163F] py-16 md:py-20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-poppins)" }}>
+      {/* ── FOOTER FORM ── */}
+      <section className="bg-gray-50 py-16 md:py-24">
+        <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#00163F] text-center mb-4" style={{ fontFamily: "var(--font-poppins)" }}>
             Don&apos;t Let Cost Hold You Back
           </h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-xl mx-auto">
-            Your time to go digital is now. Fill out the form and our team will walk you through
+          <p className="text-gray-600 text-lg mb-8 text-center">
+            Fill out the form and our team will walk you through
             exactly how the reimbursement program works for your practice.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button onClick={scrollToForm}
-              className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold px-10 py-4 rounded-full transition-colors text-lg">
-              Get Started Now
-            </button>
-            <a href="tel:5612858828"
-              className="border-2 border-white/30 hover:border-white text-white font-medium px-10 py-4 rounded-full transition-colors text-lg">
-              Call (561) 285-8828
-            </a>
-          </div>
+          <LeadForm id="footer-form" formData={formData} errors={errors} submitting={submitting}
+            submitted={submitted} handleChange={handleChange} handleSubmit={handleSubmit} formRef={null} />
         </div>
       </section>
 
