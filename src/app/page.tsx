@@ -61,6 +61,14 @@ function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function formatPhone(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 10);
+  if (digits.length === 0) return "";
+  if (digits.length <= 3) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
 function validatePhone(phone: string): string | null {
   const digits = phone.replace(/\D/g, "");
   const d = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
@@ -100,7 +108,7 @@ function CheckIcon() {
 /* ────────────────────────────────────────── */
 
 /* ─── Reusable Form Component ─── */
-function LeadForm({ formData, errors, submitting, submitted, handleChange, handleSubmit, formRef, id, className = "" }: any) {
+function LeadForm({ formData, errors, submitting, submitted, handleChange, handlePhoneBlur, handleSubmit, formRef, id, className = "" }: any) {
   return (
     <div id={id} className={`bg-white rounded-2xl p-6 sm:p-8 shadow-2xl scroll-mt-24 ${className}`}>
       {submitted ? (
@@ -120,7 +128,7 @@ function LeadForm({ formData, errors, submitting, submitted, handleChange, handl
           </h2>
           <p className="text-gray-600 mb-6">Fill out the form below and we will make it happen.</p>
           <form ref={formRef} onSubmit={handleSubmit} noValidate className="space-y-4">
-            <FormFields formData={formData} errors={errors} handleChange={handleChange} />
+            <FormFields formData={formData} errors={errors} handleChange={handleChange} handlePhoneBlur={handlePhoneBlur} />
             <button type="submit" disabled={submitting || submitted}
               className="w-full bg-[#FF4820] hover:bg-[#E63D18] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-colors text-lg">
               {submitting ? "Submitting..." : "Submit"}
@@ -136,7 +144,7 @@ function LeadForm({ formData, errors, submitting, submitted, handleChange, handl
 }
 
 /* ─── Form Fields (shared between hero and footer forms) ─── */
-function FormFields({ formData, errors, handleChange }: any) {
+function FormFields({ formData, errors, handleChange, handlePhoneBlur }: any) {
   return (
     <>
       {/* Email */}
@@ -149,7 +157,8 @@ function FormFields({ formData, errors, handleChange }: any) {
       {/* Phone */}
       <div>
         <label className="block text-sm font-medium text-[#00163F] mb-1">Phone Number<span className="text-[#FF4820]">*</span></label>
-        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="(555) 555-5555"
+        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} onBlur={handlePhoneBlur}
+          placeholder="(555) 555-5555" maxLength={14}
           className={`w-full border rounded-lg px-4 py-3 text-gray-900 placeholder:text-gray-400 transition-colors ${errors.phone ? "border-red-500" : "border-gray-300 hover:border-gray-400"}`} required />
         {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
       </div>
@@ -204,8 +213,19 @@ export default function Home() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "phone") {
+      setFormData((prev) => ({ ...prev, phone: formatPhone(value) }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
     if (errors[name]) setErrors((prev) => { const n = { ...prev }; delete n[name]; return n; });
+  }
+
+  function handlePhoneBlur() {
+    if (formData.phone.trim()) {
+      const err = validatePhone(formData.phone);
+      if (err) setErrors((prev) => ({ ...prev, phone: err }));
+    }
   }
 
   function validate(): Record<string, string> {
@@ -311,7 +331,7 @@ export default function Home() {
 
             {/* LEAD FORM */}
             <LeadForm id="lead-form" formData={formData} errors={errors} submitting={submitting}
-              submitted={submitted} handleChange={handleChange} handleSubmit={handleSubmit} formRef={formRef} />
+              submitted={submitted} handleChange={handleChange} handlePhoneBlur={handlePhoneBlur} handleSubmit={handleSubmit} formRef={formRef} />
           </div>
         </div>
       </section>
@@ -606,7 +626,7 @@ export default function Home() {
             exactly how the reimbursement program works for your practice.
           </p>
           <LeadForm id="footer-form" formData={formData} errors={errors} submitting={submitting}
-            submitted={submitted} handleChange={handleChange} handleSubmit={handleSubmit} formRef={null} />
+            submitted={submitted} handleChange={handleChange} handlePhoneBlur={handlePhoneBlur} handleSubmit={handleSubmit} formRef={null} />
         </div>
       </section>
 
