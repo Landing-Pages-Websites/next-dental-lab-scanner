@@ -366,6 +366,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── SCANNER IMAGE BANNER ── */}
+      <section className="bg-white py-0">
+        <div className="max-w-7xl mx-auto">
+          <Image
+            src="/images/scanner.png"
+            alt="Intraoral 3D dental scanner"
+            width={1600} height={743}
+            className="w-full h-auto"
+          />
+        </div>
+      </section>
+
       {/* ── HOW IT WORKS ── */}
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -458,7 +470,14 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="bg-white/5 backdrop-blur rounded-2xl p-8 border border-white/10">
+            <div className="bg-white/5 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+              <Image
+                src="/images/scanner-program.png"
+                alt="Digital scanner reimbursement program"
+                width={1000} height={1000}
+                className="w-full h-auto"
+              />
+              <div className="p-8">
               <h3 className="text-xl font-bold text-[#92F7C8] mb-6">How Reimbursement Works</h3>
               <div className="space-y-5 text-sm">
                 <div className="flex items-start gap-3 border-b border-white/10 pb-4">
@@ -485,6 +504,7 @@ export default function Home() {
                 className="w-full mt-6 bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold py-4 rounded-lg transition-colors text-lg">
                 Get Started Now
               </button>
+              </div>
             </div>
           </div>
         </div>
@@ -564,6 +584,12 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-bold text-[#00163F] mb-6" style={{ fontFamily: "var(--font-poppins)" }}>
                 Who Qualifies?
               </h2>
+              <Image
+                src="/images/hero-dental.png"
+                alt="Next Dental Lab team at work"
+                width={1420} height={800}
+                className="w-full h-auto rounded-xl mb-8"
+              />
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
                 The program is designed for dental professionals who want to go digital or who have
                 recently invested in scanning technology.
@@ -587,6 +613,12 @@ export default function Home() {
             </div>
             <div className="bg-gradient-to-br from-[#00163F] to-[#001B4D] rounded-2xl p-8 text-white">
               <h3 className="text-2xl font-bold mb-6" style={{ fontFamily: "var(--font-poppins)" }}>Next Dental Lab Products</h3>
+              <Image
+                src="/images/crown-bridge.png"
+                alt="Crown and bridge dental products"
+                width={1000} height={1000}
+                className="w-full h-auto rounded-xl mb-6"
+              />
               <p className="text-gray-300 mb-6 text-sm">
                 When you send digital cases, you have access to our full product line:
               </p>
@@ -650,6 +682,12 @@ export default function Home() {
       {/* ── FOOTER FORM ── */}
       <section className="bg-gray-50 py-16 md:py-24">
         <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Image
+            src="/images/lab-section.png"
+            alt="Next Dental Lab facility"
+            width={1000} height={1000}
+            className="w-full h-auto rounded-2xl mb-8"
+          />
           <h2 className="text-3xl sm:text-4xl font-bold text-[#00163F] text-center mb-4" style={{ fontFamily: "var(--font-poppins)" }}>
             Don&apos;t Let Cost Hold You Back
           </h2>
