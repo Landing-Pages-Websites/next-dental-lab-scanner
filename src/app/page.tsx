@@ -285,10 +285,6 @@ export default function Home() {
             <Image src="/images/logo.png" alt="Next Dental Lab" width={160} height={87} className="h-14 w-auto" priority />
           </a>
           <div className="flex items-center gap-4">
-            <a href="tel:5612858828" className="hidden sm:flex items-center gap-2 border-2 border-[#00163F] hover:border-[#FF4820] hover:text-[#FF4820] text-[#00163F] font-semibold px-5 py-2.5 rounded-full transition-colors text-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-              (561) 285-8828
-            </a>
             <button onClick={scrollToForm}
               className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-6 py-3 rounded-full transition-colors text-sm sm:text-base">
               Get Started
@@ -311,15 +307,11 @@ export default function Home() {
                 looking to invest, this is your chance to streamline workflows, enhance efficiency, and grow
                 your practice with <strong>zero risk</strong>.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+              <div className="mb-10">
                 <button onClick={scrollToForm}
                   className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
                   See How You Qualify
                 </button>
-                <a href="tel:5612858828"
-                  className="border-2 border-white/30 hover:border-white text-white font-medium px-8 py-4 rounded-full transition-colors text-lg text-center">
-                  Call (561) 285-8828
-                </a>
               </div>
               {/* Trust signals */}
               <div className="grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
@@ -419,15 +411,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <div className="text-center mt-12">
             <button onClick={scrollToForm}
               className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
               See How You Qualify
             </button>
-            <a href="tel:5612858828"
-              className="border-2 border-[#00163F] hover:border-[#FF4820] text-[#00163F] hover:text-[#FF4820] font-semibold px-8 py-4 rounded-full transition-colors text-lg text-center">
-              Call (561) 285-8828
-            </a>
           </div>
         </div>
       </section>
@@ -556,15 +544,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <div className="text-center mt-12">
             <button onClick={scrollToForm}
               className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
               Fill Out the Form to Qualify
             </button>
-            <a href="tel:5612858828"
-              className="border-2 border-[#00163F] hover:border-[#FF4820] text-[#00163F] hover:text-[#FF4820] font-semibold px-8 py-4 rounded-full transition-colors text-lg text-center">
-              Call (561) 285-8828
-            </a>
           </div>
         </div>
       </section>
@@ -658,15 +642,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <div className="text-center mt-12">
             <button onClick={scrollToForm}
               className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
               Ready? Fill Out the Form
             </button>
-            <a href="tel:5612858828"
-              className="border-2 border-[#00163F] hover:border-[#FF4820] text-[#00163F] hover:text-[#FF4820] font-semibold px-8 py-4 rounded-full transition-colors text-lg text-center">
-              Call (561) 285-8828
-            </a>
           </div>
         </div>
       </section>
@@ -691,10 +671,6 @@ export default function Home() {
                   className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold px-8 py-4 rounded-full transition-colors text-lg">
                   Get Started Now
                 </button>
-                <a href="tel:5612858828"
-                  className="border-2 border-white/30 hover:border-white text-white font-medium px-8 py-4 rounded-full transition-colors text-lg text-center">
-                  Call (561) 285-8828
-                </a>
               </div>
             </div>
             <LeadForm id="footer-form" formData={formData} errors={errors} submitting={submitting}
