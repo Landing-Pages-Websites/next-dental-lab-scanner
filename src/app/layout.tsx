@@ -38,7 +38,27 @@ export default function RootLayout({
       className={`${roboto.variable} ${poppins.variable} h-full antialiased`}
     >
       <head>
-        <meta name="mega-site-id" content="" />
+        <meta
+          name="mega-site-id"
+          content="2156b6c2-f46e-4c08-9fa5-62a21ad19759"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.MEGA_TAG_CONFIG = {
+                siteId: "2156b6c2-f46e-4c08-9fa5-62a21ad19759",
+                siteKey: "sk_5deoi877_w44rzjy472"
+              };
+              window.API_ENDPOINT = "https://analytics.gomega.ai";
+              window.TRACKING_API_ENDPOINT = "https://events-api.gomega.ai";
+            `,
+          }}
+        />
+        <script
+          src="https://cdn.gomega.ai/scripts/optimizer.min.js"
+          data-site-id="2156b6c2-f46e-4c08-9fa5-62a21ad19759"
+          async
+        />
       </head>
       <body className="min-h-full flex flex-col">
         {children}
