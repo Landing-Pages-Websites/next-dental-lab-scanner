@@ -658,32 +658,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
+      {/* ── FOOTER CTA + FORM ── */}
       <section className="bg-[#00163F] py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden">
-              <Image src="/images/banner.png" alt="Next Dental Lab digital workflow" width={1920} height={870} className="w-full h-full object-cover" />
-            </div>
-            <div className="text-center md:text-left">
+            <div>
+              <div className="relative h-56 sm:h-72 rounded-2xl overflow-hidden mb-8">
+                <Image src="/images/banner.png" alt="Next Dental Lab digital workflow" width={1920} height={870} className="w-full h-full object-cover" />
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-poppins)" }}>
                 Don&apos;t Let Cost Hold You Back
               </h2>
-              <p className="text-gray-300 text-lg mb-8 max-w-lg">
+              <p className="text-gray-300 text-lg mb-6 max-w-lg">
                 Your time to go digital is now. Fill out the form and our team will walk you through
                 exactly how the reimbursement program works for your practice.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 md:justify-start justify-center">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <button onClick={scrollToForm}
-                  className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold px-10 py-4 rounded-full transition-colors text-lg">
+                  className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold px-8 py-4 rounded-full transition-colors text-lg">
                   Get Started Now
                 </button>
                 <a href="tel:5612858828"
-                  className="border-2 border-white/30 hover:border-white text-white font-medium px-10 py-4 rounded-full transition-colors text-lg text-center">
+                  className="border-2 border-white/30 hover:border-white text-white font-medium px-8 py-4 rounded-full transition-colors text-lg text-center">
                   Call (561) 285-8828
                 </a>
               </div>
             </div>
+            <LeadForm id="footer-form" formData={formData} errors={errors} submitting={submitting}
+              submitted={submitted} handleChange={handleChange} handlePhoneBlur={handlePhoneBlur} handleSubmit={handleSubmit} formRef={null} />
           </div>
         </div>
       </section>
