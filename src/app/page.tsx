@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, FormEvent, useRef } from "react";
 import { useTracking } from "@/hooks/useTracking";
+import { useMegaLeadForm } from "@/hooks/useMegaLeadForm";
 
 /* ─── Form dropdown options (from source HubSpot form) ─── */
 const DROPDOWN_OPTIONS = [
@@ -208,6 +209,8 @@ export default function Home() {
     gtmId: "GTM-T4N82VR8",
   });
 
+  const { submit: submitLead } = useMegaLeadForm();
+
   const [formData, setFormData] = useState({
     email: "", phone: "", officeName: "", firstName: "", lastName: "", describes: "",
   });
@@ -254,22 +257,23 @@ export default function Home() {
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setSubmitting(true);
     try {
-      const payload = {
-        email: formData.email, phone: formData.phone, company: formData.officeName,
-        firstname: formData.firstName, lastname: formData.lastName,
-        what_best_describes_you_: formData.describes,
-        source: "landing-page", page: window.location.href,
+      const payload: Record<string, unknown> = {
+        email: formData.email,
+        phone: formData.phone,
+        officeName: formData.officeName,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        what_best_describes_you: formData.describes,
       };
-      if ((window as any).API_ENDPOINT) {
-        await fetch((window as any).API_ENDPOINT + "/lead", {
-          method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload),
-        }).catch(() => {});
-      }
-      if ((window as any).MegaTag) {
+      await submitLead(payload);
+      if ((window as any).MegaTag?.trackEvent) {
         (window as any).MegaTag.trackEvent("form_submit", { formData: payload });
       }
       setSubmitted(true);
-    } catch { setSubmitted(true); } finally { setSubmitting(false); }
+    } catch (err) {
+      console.error("Submission error:", err);
+      setSubmitted(true);
+    } finally { setSubmitting(false); }
   }
 
   function scrollToForm() {
