@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, FormEvent, useRef } from "react";
+import { useTracking } from "@/hooks/useTracking";
 
 /* ─── Form dropdown options (from source HubSpot form) ─── */
 const DROPDOWN_OPTIONS = [
@@ -202,6 +203,11 @@ function FormFields({ formData, errors, handleChange, handlePhoneBlur }: any) {
 }
 
 export default function Home() {
+  useTracking({
+    siteKey: "sk_5deoi877_w44rzjy472",
+    gtmId: "GTM-T4N82VR8",
+  });
+
   const [formData, setFormData] = useState({
     email: "", phone: "", officeName: "", firstName: "", lastName: "", describes: "",
   });
@@ -412,6 +418,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div className="text-center mt-12">
+            <button onClick={scrollToForm}
+              className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
+              See How You Qualify
+            </button>
+          </div>
         </div>
       </section>
 
@@ -469,6 +481,10 @@ export default function Home() {
               <p className="text-xs text-gray-500 mt-6">
                 Terms and conditions apply. Contact us for full program details.
               </p>
+              <button onClick={scrollToForm}
+                className="w-full mt-6 bg-[#FF4820] hover:bg-[#E63D18] text-white font-bold py-4 rounded-lg transition-colors text-lg">
+                Get Started Now
+              </button>
             </div>
           </div>
         </div>
@@ -530,6 +546,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div className="text-center mt-12">
+            <button onClick={scrollToForm}
+              className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
+              Fill Out the Form to Qualify
+            </button>
+          </div>
         </div>
       </section>
 
@@ -585,6 +607,10 @@ export default function Home() {
                   comfort, and longevity. Rush service available for select products.
                 </p>
               </div>
+              <button onClick={scrollToForm}
+                className="w-full mt-6 bg-[#92F7C8] hover:bg-[#7DE0B3] text-[#00163F] font-bold py-4 rounded-lg transition-colors text-lg">
+                Check If You Qualify
+              </button>
             </div>
           </div>
         </div>
@@ -611,6 +637,12 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-12">
+            <button onClick={scrollToForm}
+              className="bg-[#FF4820] hover:bg-[#E63D18] text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg">
+              Ready? Fill Out the Form
+            </button>
           </div>
         </div>
       </section>

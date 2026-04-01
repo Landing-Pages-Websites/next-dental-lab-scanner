@@ -38,51 +38,27 @@ export default function RootLayout({
       className={`${roboto.variable} ${poppins.variable} h-full antialiased`}
     >
       <head>
+        {/* MegaTag config — set BEFORE optimizer loads */}
         <meta
           name="mega-site-id"
           content="2156b6c2-f46e-4c08-9fa5-62a21ad19759"
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              window.MEGA_TAG_CONFIG = {
-                siteId: "2156b6c2-f46e-4c08-9fa5-62a21ad19759",
-                siteKey: "sk_5deoi877_w44rzjy472",
-                gtmId: "GTM-T4N82VR8"
-              };
-              window.API_ENDPOINT = "https://analytics.gomega.ai";
-              window.TRACKING_API_ENDPOINT = "https://events-api.gomega.ai";
-            `,
+            __html: `window.MEGA_TAG_CONFIG={siteKey:"sk_5deoi877_w44rzjy472",gtmId:"GTM-T4N82VR8",siteId:"2156b6c2-f46e-4c08-9fa5-62a21ad19759"};window.API_ENDPOINT="https://optimizer.gomega.ai";window.TRACKING_API_ENDPOINT="https://events-api.gomega.ai";`,
           }}
         />
         <script
+          id="optimizer-script"
           src="https://cdn.gomega.ai/scripts/optimizer.min.js"
           data-site-id="2156b6c2-f46e-4c08-9fa5-62a21ad19759"
           async
         />
       </head>
       <body className="min-h-full flex flex-col">
-        {/* GTM noscript */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-T4N82VR8"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
         {children}
 
-        {/* GTM script */}
-        <Script id="gtm" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-T4N82VR8');`}
-        </Script>
-
-        {/* CTM universal script */}
+        {/* CTM — Universal account, afterInteractive */}
         <Script
           src="https://572388.tctm.co/t.js"
           strategy="afterInteractive"
